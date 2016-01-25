@@ -1,0 +1,22 @@
+# Created by https://www.gitignore.io/api/intellij
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
+**/.idea/workspace.xml
+**/.idea/tasks.xml
+**/.idea/dictionaries
+**/.idea/shelf
+**/.idea/dataSources.ids
+**/.idea/dataSources.xml
+**/.idea/sqlDataSources.xml
+**/.idea/dynamic.xml
+**/.idea/uiDesigner.xml
+**/.idea/gradle.xml
+**/.idea/libraries
+*.ipr
+*.iws
+**/out/
+**/.gradle/
+**/build/
+*.class
+*~
+*.swp
+.gradle/
