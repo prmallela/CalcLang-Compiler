@@ -114,7 +114,10 @@ public class CommentLexerTest {
 
     @Test(expected = UnterminatedCommentExn.class)
     public void testUnterminatedComment() {
+
         CommentLexer.stripComments("Foo (* unending");
+        CommentLexer.stripComments("Foo (* unending *");
+
     }
 
     @Test(expected = UnterminatedCommentExn.class)
@@ -140,3 +143,4 @@ public class CommentLexerTest {
     }
 
 }
+
