@@ -26,11 +26,19 @@ public class Token {
         this.type = type;
         this.text = text;
     }
+    Token(Type type, String text, int line, int column){
+        this.type = type;
+        this.text = text;
+        setPosition(line, column);
+    }
 
     /** Convenience constructor for when `text` can be null. */
     Token(Type type) {
         this(type, null);
     }
+    Token(Type type, int line, int column){
+        this(type, null);
+        setPosition(line, column);}
 
     /** Provide the position information */
     public Token setPosition(int line, int column) {
@@ -62,7 +70,8 @@ public class Token {
                 String escaped = text
                         .replace("\n", "\\n")
                         .replace("(", "\\(")
-                        .replace(")", "\\)");
+                        .replace(")", "\\)")
+                        .replace("\\\\", "\\");
                 buf.append('(');
                 buf.append(escaped);
                 buf.append(')');

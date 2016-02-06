@@ -18,8 +18,8 @@ public class Lexer {
     static final char EOF = (char)-1;
     Reader reader;     // The input character stream
     char lookahead;    // The single lookahead character
-    int line, column;  // Current position
-
+    int line=1, column=0;  // Current position
+    Token token;
 
     /** Basic constructor uses the `Reader` type, so we can get one char at
      * a time.
@@ -37,8 +37,10 @@ public class Lexer {
     /** Discard the current lookahead character and load the next one. */
     private void consume() {
         // TODO: update line and column counters
+
        try {
             lookahead = (char)reader.read();
+           column++;
         }
         catch(IOException exn) {
             lookahead = EOF;
@@ -51,21 +53,25 @@ public class Lexer {
             switch (lookahead){
                 case ' ':
                 case '\t':
-                case '\n':
                 case '\r':
-                    consume();
+                   consume();
                     break;
+                case '\n':line++;column=0;consume();break;
                 case '{':
+                   // consume();
+                    token = new Token(Token.Type.LBRACE,line,column);
                     consume();
-                    return new Token(Token.Type.LBRACE);
+                    return token;
                 case '}':
+                  //  consume();
+                    token = new Token(Token.Type.RBRACE,line,column);
                     consume();
-                    return new Token(Token.Type.RBRACE);
+                    return token;
                 case '/':
                     consume();
                     return scanSymbol();
                 case '(':
-                    consume();
+                     consume();
                     return scanString();
                 case '%':
                     do {
@@ -79,7 +85,7 @@ public class Lexer {
                     else if (Character.isDigit(lookahead) || lookahead == '-') {
                         return scanNumber();
                     }
-                   throw new LexError(2,3,"hello");
+                   throw new LexError(line,column,"Illegal Character");
             }
         }
 
@@ -100,12 +106,10 @@ public class Lexer {
                 consume();
             }
 
-        }while (!(lookahead == ')'));
-                //|| Character.isAlphabetic(lookahead) ||
-                //lookahead =='\\' ||
-               // lookahead == ' '));
+        }while ((lookahead != ')' ));
+        token=new Token(Token.Type.STR, buf.toString(),line,column);
         consume();
-        return new Token(Token.Type.STR, buf.toString());
+        return token;
     }
     Token scanSymbol(){
         StringBuilder buf = new StringBuilder();
@@ -119,7 +123,7 @@ public class Lexer {
                 lookahead == ')' ||
                 lookahead == '%' ||
                 lookahead == EOF));
-        return new Token(Token.Type.SYM, buf.toString());
+        return new Token(Token.Type.SYM, buf.toString(),line,column);
     }
 
     Token scanOperator(){
@@ -128,16 +132,16 @@ public class Lexer {
             buf.append(lookahead);
             consume();
         } while(Character.isAlphabetic(lookahead));
-        return new Token(Token.Type.OP, buf.toString());
+        return new Token(Token.Type.OP, buf.toString(),line,column);
     }
 
     Token scanNumber(){
         StringBuilder buf = new StringBuilder();
-        do {
+        while(Character.isDigit(lookahead) ||lookahead == '-') {
             buf.append(lookahead);
             consume();
-        }while(Character.isDigit(lookahead));
-        return new Token(Token.Type.INT, buf.toString());
+        }
+        return new Token(Token.Type.INT, buf.toString(),line,column);
     }
     /** Here is a sample program that reads an expression from standard
      * input. Press control-D (or maybe control-Z) to send the EOF and
@@ -147,12 +151,12 @@ public class Lexer {
         /* Read from standard input */
         System.out.println(
                 "Patiently awaiting your code (^D or ^Z to end)");
-       // Lexer lexer = new Lexer(new InputStreamReader(System.in));
-        String x;
+       Lexer lexer = new Lexer(new InputStreamReader(System.in));
+       /* String x;
         Scanner in = new Scanner(System.in);
         x = in.nextLine();
         StringReader t = new StringReader(x);
-        Lexer lexer = new Lexer(t);
+        Lexer lexer = new Lexer(t); */
         Token token;
         do {
             token = lexer.nextToken();
