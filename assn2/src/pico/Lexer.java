@@ -68,6 +68,7 @@ public class Lexer {
                     consume();
                     return token;
                 case '/':
+                    column--;
                     consume();
                     return scanSymbol();
                 case '(':
@@ -94,7 +95,8 @@ public class Lexer {
 
     Token scanString(){
         StringBuilder buf = new StringBuilder();
-        do{
+        int strCol= column;
+        while ((lookahead != ')' )){
             buf.append(lookahead);
             consume();
             if(lookahead=='('){
@@ -106,42 +108,45 @@ public class Lexer {
                 consume();
             }
 
-        }while ((lookahead != ')' ));
-        token=new Token(Token.Type.STR, buf.toString(),line,column);
+        }
+        token=new Token(Token.Type.STR, buf.toString(),line,strCol);
         consume();
         return token;
     }
     Token scanSymbol(){
         StringBuilder buf = new StringBuilder();
-        do {
-            buf.append(lookahead);
-            consume();
-        }while(!(lookahead == ' '||
+        int SymCol =column;
+        while(!(lookahead == ' '||
                 lookahead == '{' ||
                 lookahead =='}'  ||
                 lookahead =='('  ||
                 lookahead == ')' ||
                 lookahead == '%' ||
-                lookahead == EOF));
-        return new Token(Token.Type.SYM, buf.toString(),line,column);
+                lookahead == EOF)){
+            buf.append(lookahead);
+            consume();
+        }
+        return new Token(Token.Type.SYM, buf.toString(),line,SymCol);
     }
 
     Token scanOperator(){
         StringBuilder buf = new StringBuilder();
-        do {
+        int Opcol=column;
+        while(Character.isAlphabetic(lookahead)){
             buf.append(lookahead);
             consume();
-        } while(Character.isAlphabetic(lookahead));
-        return new Token(Token.Type.OP, buf.toString(),line,column);
+        }
+        return new Token(Token.Type.OP, buf.toString(),line,Opcol);
     }
 
     Token scanNumber(){
         StringBuilder buf = new StringBuilder();
+        int numberCol=column;
         while(Character.isDigit(lookahead) ||lookahead == '-') {
             buf.append(lookahead);
             consume();
         }
-        return new Token(Token.Type.INT, buf.toString(),line,column);
+        return new Token(Token.Type.INT, buf.toString(),line,numberCol);
     }
     /** Here is a sample program that reads an expression from standard
      * input. Press control-D (or maybe control-Z) to send the EOF and
