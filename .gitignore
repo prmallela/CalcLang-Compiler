@@ -10,7 +10,6 @@
 **/.idea/dynamic.xml
 **/.idea/uiDesigner.xml
 **/.idea/gradle.xml
-**/.idea/libraries
 *.ipr
 *.iws
 **/out/
