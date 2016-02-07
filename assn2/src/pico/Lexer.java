@@ -86,7 +86,7 @@ public class Lexer {
                     else if (Character.isDigit(lookahead) || lookahead == '-') {
                         return scanNumber();
                     }
-                   throw new LexError(line,column,"Illegal Character");
+                   throw new LexError(line,column,"Invalid");
             }
         }
 
@@ -96,7 +96,13 @@ public class Lexer {
     Token scanString(){
         StringBuilder buf = new StringBuilder();
         int strCol= column;
-        while ((lookahead != ')' )){
+        while (lookahead != ')'){
+            if(lookahead=='\\'){
+                buf.append(lookahead);
+                consume();
+                if (lookahead =='%')
+                {throw new LexError(line,column,"Bad Quoted");}
+            }
             buf.append(lookahead);
             consume();
             if(lookahead=='('){
