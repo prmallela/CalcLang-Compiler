@@ -19,7 +19,7 @@ public class Lexer {
     Reader reader;     // The input character stream
     char lookahead;    // The single lookahead character
     int line=1, column=0;  // Current position
-    Token token;
+    Token token1;
 
     /** Basic constructor uses the `Reader` type, so we can get one char at
      * a time.
@@ -59,14 +59,14 @@ public class Lexer {
                 case '\n':line++;column=0;consume();break;
                 case '{':
                    // consume();
-                    token = new Token(Token.Type.LBRACE,line,column);
+                    token1 = new Token(Token.Type.LBRACE,line,column);
                     consume();
-                    return token;
+                    return token1;
                 case '}':
                   //  consume();
-                    token = new Token(Token.Type.RBRACE,line,column);
+                    token1 = new Token(Token.Type.RBRACE,line,column);
                     consume();
-                    return token;
+                    return token1;
                 case '/':
                     column--;
                     consume();
@@ -96,7 +96,7 @@ public class Lexer {
     Token scanString(){
         StringBuilder buf = new StringBuilder();
         int strCol= column;
-        while (lookahead != ')'){
+        while (!(lookahead == ')' || lookahead ==EOF)){
             if(lookahead=='\\'){
                 buf.append(lookahead);
                 consume();
@@ -109,15 +109,15 @@ public class Lexer {
                     do {
                         buf.append(lookahead);
                         consume();
-                    }while (lookahead !=')');
+                    }while (!(lookahead ==')' || lookahead==EOF));
                 buf.append(lookahead);
                 consume();
             }
 
         }
-        token=new Token(Token.Type.STR, buf.toString(),line,strCol);
+        token1=new Token(Token.Type.STR, buf.toString(),line,strCol);
         consume();
-        return token;
+        return token1;
     }
     Token scanSymbol(){
         StringBuilder buf = new StringBuilder();
