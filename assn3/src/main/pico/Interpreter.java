@@ -139,15 +139,27 @@ public class Interpreter {
     }
 //Arithmetic operators
     public void op_add() {
-        BigInteger y = stack.pop().asInteger();
-        BigInteger x = stack.pop().asInteger();
-        stack.push(new Value(x.add(y)));
+        String x = stack.pop().toString();
+        String y = stack.pop().toString();
+        if(isInteger(x) && isInteger(y) ){
+            stack.push(new Value(BigInteger.valueOf(Integer.parseInt(x)).add(BigInteger.valueOf(Integer.parseInt(y)))));
+        }
+        else {
+            throw new RuntimeError("Unexpected Type: Expected BigInteger: Found String");
+        }
+
+
     }
 
     public void op_mul() {
-        BigInteger y = stack.pop().asInteger();
-        BigInteger x = stack.pop().asInteger();
-        stack.push(new Value(x.multiply(y)));
+        String x = stack.pop().toString();
+        String y = stack.pop().toString();
+        if(isInteger(x) && isInteger(y) ){
+            stack.push(new Value(BigInteger.valueOf(Integer.parseInt(x)).multiply(BigInteger.valueOf(Integer.parseInt(y)))));
+        }
+        else {
+            throw new RuntimeError("Unexpected Type: Expected BigInteger: Found String");
+        }
     }
 
     public void op_def() {
@@ -157,21 +169,36 @@ public class Interpreter {
     }
 
     public void op_idiv(){
-        BigInteger y = stack.pop().asInteger();
-        BigInteger x = stack.pop().asInteger();
-        stack.push(new Value(x.divide(y)));
+        String x = stack.pop().toString();
+        String y = stack.pop().toString();
+        if(isInteger(x) && isInteger(y)){
+            stack.push(new Value(BigInteger.valueOf(Integer.parseInt(y)).divide(BigInteger.valueOf(Integer.parseInt(x)))));
+        }
+        else {
+            throw new RuntimeError("Unexpected Type: Expected BigInteger: Found String");
+        }
     }
 
     public void op_mod(){
-        BigInteger y = stack.pop().asInteger();
-        BigInteger x = stack.pop().asInteger();
-        stack.push(new Value(x.mod(y)));
+        String x = stack.pop().toString();
+        String y = stack.pop().toString();
+        if(isInteger(x) && isInteger(y) ){
+            stack.push(new Value(BigInteger.valueOf(Integer.parseInt(y)).mod(BigInteger.valueOf(Integer.parseInt(x)))));
+        }
+        else {
+            throw new RuntimeError("Unexpected Type: Expected BigInteger: Found String");
+        }
         }
 
     public void op_sub(){
-        BigInteger y = stack.pop().asInteger();
-        BigInteger x = stack.pop().asInteger();
-        stack.push(new Value(x.subtract(y)));
+        String x = stack.pop().toString();
+        String y = stack.pop().toString();
+        if(isInteger(x) && isInteger(y) ){
+            stack.push(new Value(BigInteger.valueOf(Integer.parseInt(y)).subtract(BigInteger.valueOf(Integer.parseInt(x)))));
+        }
+        else {
+            throw new RuntimeError("Unexpected Type: Expected BigInteger: Found String");
+        }
     }
 
     //String operators
@@ -324,11 +351,11 @@ public class Interpreter {
      }
     public void op_repeat(){
         System.out.println(stack);
-        int fi,se,mu;
-        String x,op;
+        int fi,se;
+        String op;
         String op1,op2;
+        int count;
         op = stack.pop().toString();
-        System.out.println(op);
         op1= op.substring(op.indexOf('[')+1,op.indexOf(','));
         op1= op1.substring(op1.indexOf('(')+1,op1.indexOf(')'));
         op2= op.substring(op.indexOf(' ')+1,op.indexOf(']'));
@@ -336,20 +363,86 @@ public class Interpreter {
         se = stack.pop().asInteger().intValue();
         fi = stack.pop().asInteger().intValue();
         System.out.println(fi+" "+se+" "+op1+" "+op2);
+        stack.push(new Value(BigInteger.valueOf(fi)));
+        while(fi<=se)
+        {
+            stack.push(new Value(op1));
+            try {
+                Method m = Interpreter.class.getMethod("op_"+op2);
+                m.invoke(this);
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeError("Unknown operator:");
+            } catch (IllegalAccessException e) {
+                throw new RuntimeError(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeError(e);
+            }
+            fi++;
+        }
     }
     public void op_for(){
-        System.out.println(stack);
         String op = stack.pop().toString();
         op= op.substring(op.indexOf('(')+1, op.indexOf(')'));
         int fo = (stack.pop().asInteger()).intValue();
         int th = (stack.pop().asInteger()).intValue();
         int se = (stack.pop().asInteger()).intValue();
         int fi = (stack.pop().asInteger()).intValue();
-        System.out.println(fi+" "+se+" "+th+" "+fo+" "+op);
+        //System.out.println(fi+" "+se+" "+th+" "+fo+" "+op);
+        stack.push(new Value(BigInteger.valueOf(fi)));
+        stack.push(new Value(BigInteger.valueOf(se)));
+        int max=stack.peek().asInteger().intValue();
+        while(max < fo-1)
+        {
+            try {
+                Method j = Interpreter.class.getMethod("op_"+op);
+                j.invoke(this);
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeError("Unknown operator:");
+            } catch (IllegalAccessException e) {
+                throw new RuntimeError(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeError(e);
+            }
+            stack.push(new Value(stack.peek().asInteger()));
+            max=stack.peek().asInteger().intValue();
+            stack.push(new Value(BigInteger.valueOf(th)));
+        }
+       stack.pop();stack.pop();
+        int length=stack.size();
+        while(length>=2)
+        {
+            try {
+                Method a = Interpreter.class.getMethod("op_"+op);
+                a.invoke(this);
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeError("Unknown operator:");
+            } catch (IllegalAccessException e) {
+                throw new RuntimeError(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeError(e);
+            }
+            length=stack.size();
+        }
+
      }
     public void op_while(){
         System.out.println(stack);
-     }
+        String bl21,bl22;
+        String bl11,bl12;
+        String bl2 = stack.pop().toString();
+        String bl1 = stack.pop().toString();
+
+        System.out.println(bl2);
+        bl21= bl2.substring(bl2.indexOf('[')+1,bl2.indexOf(','));
+        bl21= bl21.substring(bl21.indexOf('(')+1,bl21.indexOf(')'));
+        bl22= bl2.substring(bl2.indexOf(' ')+1,bl2.indexOf(']'));
+        bl22= bl22.substring(bl22.indexOf('(')+1,bl22.indexOf(')'));
+        bl11= bl1.substring(bl1.indexOf('[')+1,bl1.indexOf(','));
+        bl11= bl11.substring(bl11.indexOf('(')+1,bl11.indexOf(')'));
+        bl12= bl1.substring(bl1.indexOf(' ')+1,bl1.indexOf(']'));
+        bl12= bl12.substring(bl12.indexOf('(')+1,bl12.indexOf(')'));
+
+    }
 
 
     public static void main(String[] args)
