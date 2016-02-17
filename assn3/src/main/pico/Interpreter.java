@@ -428,20 +428,25 @@ public class Interpreter {
     public void op_while(){
         System.out.println(stack);
         String bl21,bl22;
-        String bl11,bl12;
+        String bl11,bl12,bl13;
         String bl2 = stack.pop().toString();
         String bl1 = stack.pop().toString();
-
+        String fi = stack.pop().toString();
         System.out.println(bl2);
-        bl21= bl2.substring(bl2.indexOf('[')+1,bl2.indexOf(','));
-        bl21= bl21.substring(bl21.indexOf('(')+1,bl21.indexOf(')'));
-        bl22= bl2.substring(bl2.indexOf(' ')+1,bl2.indexOf(']'));
-        bl22= bl22.substring(bl22.indexOf('(')+1,bl22.indexOf(')'));
-        bl11= bl1.substring(bl1.indexOf('[')+1,bl1.indexOf(','));
-        bl11= bl11.substring(bl11.indexOf('(')+1,bl11.indexOf(')'));
-        bl12= bl1.substring(bl1.indexOf(' ')+1,bl1.indexOf(']'));
+        System.out.println(bl1);
+         String [] x;
+        x = bl1.split(",");
+        bl11 = x[0];
+        bl11 = bl11.substring(bl11.indexOf('(')+1,bl11.indexOf(')'));
+        bl12= x[1];
         bl12= bl12.substring(bl12.indexOf('(')+1,bl12.indexOf(')'));
-
+        bl13= x[2];
+        bl13= bl13.substring(bl13.indexOf('(')+1,bl13.indexOf(')'));
+        bl21= bl2.substring(bl2.indexOf('['),bl2.indexOf(','));
+        bl21= bl21.substring(bl21.indexOf('(')+1,bl21.indexOf(')'));
+        bl22= bl2.substring(bl2.indexOf(' '),bl2.indexOf(']'));
+        bl22= bl22.substring(bl22.indexOf('(')+1,bl22.indexOf(')'));
+        System.out.print(fi+" "+bl11+" "+bl12+" "+bl13+" "+bl21+" "+bl22);
     }
 
 
