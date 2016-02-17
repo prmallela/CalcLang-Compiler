@@ -303,15 +303,24 @@ public class Interpreter {
     }
     public void op_lt(){
         String x=stack.pop().toString();
-        String y =stack.pop().toString();
-        int i=x.compareTo(y);
-        if(i<=-1 ||i==0) {
-            stack.push(new Value("false"));
+        String y=stack.pop().toString();
+        if(isInteger(x) && isInteger(y))
+        {
+            int xi=Integer.parseInt(x);
+            int yi=Integer.parseInt(y);
+            if(yi < xi){
+                stack.push(new Value(true));
+            }
+            else {stack.push(new Value(false));
+            }
         }
-        else
-            stack.push(new Value("true"));
-
-
+        else {
+            int i = x.compareTo(y);
+            if (i <= -1 || i == 0) {
+                stack.push(new Value(false));
+            } else
+                stack.push(new Value(true));
+        }
     }
     public void op_and(){
         Boolean x = stack.pop().aBoolean();
@@ -387,7 +396,6 @@ public class Interpreter {
         int th = (stack.pop().asInteger()).intValue();
         int se = (stack.pop().asInteger()).intValue();
         int fi = (stack.pop().asInteger()).intValue();
-        //System.out.println(fi+" "+se+" "+th+" "+fo+" "+op);
         stack.push(new Value(BigInteger.valueOf(fi)));
         stack.push(new Value(BigInteger.valueOf(se)));
         int max=stack.peek().asInteger().intValue();
@@ -426,7 +434,6 @@ public class Interpreter {
 
      }
     public void op_while(){
-        System.out.println(stack);
         String bl21,bl22;
         String bl11,bl12,bl13;
         String bl2 = stack.pop().toString();
@@ -446,9 +453,68 @@ public class Interpreter {
         bl21= bl21.substring(bl21.indexOf('(')+1,bl21.indexOf(')'));
         bl22= bl2.substring(bl2.indexOf(' '),bl2.indexOf(']'));
         bl22= bl22.substring(bl22.indexOf('(')+1,bl22.indexOf(')'));
-        System.out.print(fi+" "+bl11+" "+bl12+" "+bl13+" "+bl21+" "+bl22);
-    }
+        System.out.println(fi+" "+bl11+" "+bl12+" "+bl13+" "+bl21+" "+bl22);
+        int inti= Integer.parseInt(fi);
+        int limit = Integer.parseInt(bl12);
+        int mulval = Integer.parseInt(bl21);
+        while(inti < limit){
 
+            stack.push(new Value(BigInteger.valueOf(inti)));
+            try {//duplicate
+                Method w = Interpreter.class.getMethod("op_"+bl11);
+                w.invoke(this);
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeError("Unknown operator:");
+            } catch (IllegalAccessException e) {
+                throw new RuntimeError(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeError(e);
+            }
+
+            stack.push(new Value(BigInteger.valueOf(Integer.valueOf(bl12))));
+
+            try {//lt  checking dup <1000
+                Method i = Interpreter.class.getMethod("op_"+bl13);
+                i.invoke(this);
+            } catch (NoSuchMethodException e) {
+                throw new RuntimeError("Unknown operator:");
+            } catch (IllegalAccessException e) {
+                throw new RuntimeError(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeError(e);
+            }
+
+
+            if(stack.pop().aBoolean()){//true
+                stack.push(new Value(BigInteger.valueOf(mulval)));
+                try {//multiply
+                    Method k = Interpreter.class.getMethod("op_"+bl22);
+                    k.invoke(this);
+                } catch (NoSuchMethodException e) {
+                    throw new RuntimeError("Unknown operator:");
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeError(e);
+                } catch (InvocationTargetException e) {
+                    throw new RuntimeError(e);
+                }
+                inti=stack.pop().asInteger().intValue();
+
+            }
+            else //never comes to else
+            {
+                inti=limit;
+            }
+            stack.removeAllElements();
+            stack.push(new Value(BigInteger.valueOf(inti)));
+        }
+
+        }
+
+   /* private Boolean Boo(String check) {
+        if(check =="true"){ return true;}
+        else if (check =="false") {return false;}
+        else { return null;}
+    }*/
 
     public static void main(String[] args)
     {

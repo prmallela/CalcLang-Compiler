@@ -112,10 +112,10 @@ other types is a runtime error.
         // auto-generated from pico-ops.yaml
         assertStack("3 4 lt", "true");
         assertStack("4 3 lt", "false");
-        assertStack("4 4 lt", "false");
-        assertStack("(Ha) (Heh) lt", "true");
-        assertStack("(Heh) (Ha) lt", "false");
-        assertStack("(Ha) (Ha) lt", "false");
+       assertStack("4 4 lt", "false");
+       assertStack("(Ha) (Heh) lt", "true");
+       assertStack("(Heh) (Ha) lt", "false");
+       assertStack("(Ha) (Ha) lt", "false");
     }
 
     /** Logical and operator. Works only on Booleans.
