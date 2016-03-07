@@ -16,71 +16,15 @@ public interface ConfigVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTop(ConfigParser.TopContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code FirstStmt}
-	 * labeled alternative in {@link ConfigParser#stmt}.
+	 * Visit a parse tree produced by {@link ConfigParser#head}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFirstStmt(ConfigParser.FirstStmtContext ctx);
+	T visitHead(ConfigParser.HeadContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ConfigParser#heading}.
+	 * Visit a parse tree produced by {@link ConfigParser#val}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitHeading(ConfigParser.HeadingContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code AssignStmt}
-	 * labeled alternative in {@link ConfigParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignStmt(ConfigParser.AssignStmtContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code NegExpr}
-	 * labeled alternative in {@link ConfigParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNegExpr(ConfigParser.NegExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code VarExpr}
-	 * labeled alternative in {@link ConfigParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVarExpr(ConfigParser.VarExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code skip}
-	 * labeled alternative in {@link ConfigParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSkip(ConfigParser.SkipContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code SpaceExpr}
-	 * labeled alternative in {@link ConfigParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSpaceExpr(ConfigParser.SpaceExprContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code WhiteSpace}
-	 * labeled alternative in {@link ConfigParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitWhiteSpace(ConfigParser.WhiteSpaceContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code braces}
-	 * labeled alternative in {@link ConfigParser#expr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBraces(ConfigParser.BracesContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ConfigParser#link}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLink(ConfigParser.LinkContext ctx);
+	T visitVal(ConfigParser.ValContext ctx);
 }

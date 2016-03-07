@@ -1,35 +1,12 @@
 grammar Config;
 
-top: heading var EOF
-   ;
+top : head val EOF;
 
-heading : '[' NAME ']'
-        ;
+head : '[' NAME ']' WS;
 
-var : NAME '=' NAME
-    | NAME
-    | '/'NAME
-    | COMMENT
-    | COMMENT2
-    | NESTCOMMENT
-    ;
+val : NAME '=' NAME WS;
 
-NAME : (('a'..'z')|('A'..'Z')|('0'..'9'))+
-     | NUM
-     | Schar
-     ;
+NAME : ('a'..'z'|'A'..'Z')+;
 
-Schar : '@'
-      | '.'
-      |'--'
-      |'-'
-      ;
+WS : ('\r'|'\n'|'\t'|'\r\n');
 
-NUM : [0-9]+ ('.' [0-9]+)? ;
-
-
-WS  : (' '|'\n'|'\t')+ -> skip;
-
-COMMENT: '#' .*? '\n' -> channel(HIDDEN);
-COMMENT2: '/*' .*? '*/' -> channel(HIDDEN);
-NESTCOMMENT : '{-' (NESTCOMMENT|.)*? '-}' -> channel(HIDDEN) ;
