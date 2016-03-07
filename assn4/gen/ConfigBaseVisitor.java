@@ -23,6 +23,13 @@ public class ConfigBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitIgnore(ConfigParser.IgnoreContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitSec(ConfigParser.SecContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}

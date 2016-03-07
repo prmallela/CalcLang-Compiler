@@ -16,6 +16,12 @@ public interface ConfigVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTop(ConfigParser.TopContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ConfigParser#ignore}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIgnore(ConfigParser.IgnoreContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ConfigParser#sec}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
