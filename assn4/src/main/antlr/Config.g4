@@ -1,12 +1,20 @@
 grammar Config;
 
-top : head val EOF;
+top : NL* sec+ EOF;
 
-head : '[' NAME ']' WS;
+sec : head NL+ val+;
 
-val : NAME '=' NAME WS;
+head : '[' NAME ']' ;
+
+val : WS? NAME WS? '=' WS? value NL+;
+
+value : (NAME|WS|SCHAR|NUM)*;
 
 NAME : ('a'..'z'|'A'..'Z')+;
+NUM : [0-9]+;
 
-WS : ('\r'|'\n'|'\t'|'\r\n');
+NL : ('\r'|'\n'|'\r\n');
+WS : (' '|'\t')+;
+SCHAR : '!'|'@'|'.'|'_'|'-'|'#'|'/'|','|'?';
+COMMENT : '#' .*? '\n' ->skip;
 

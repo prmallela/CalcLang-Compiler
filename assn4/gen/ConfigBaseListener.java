@@ -27,6 +27,18 @@ public class ConfigBaseListener implements ConfigListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSec(ConfigParser.SecContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSec(ConfigParser.SecContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterHead(ConfigParser.HeadContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -46,6 +58,18 @@ public class ConfigBaseListener implements ConfigListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVal(ConfigParser.ValContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterValue(ConfigParser.ValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitValue(ConfigParser.ValueContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

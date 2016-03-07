@@ -16,6 +16,12 @@ public interface ConfigVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTop(ConfigParser.TopContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ConfigParser#sec}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSec(ConfigParser.SecContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link ConfigParser#head}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -27,4 +33,10 @@ public interface ConfigVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVal(ConfigParser.ValContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ConfigParser#value}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValue(ConfigParser.ValueContext ctx);
 }

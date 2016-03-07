@@ -17,6 +17,16 @@ public interface ConfigListener extends ParseTreeListener {
 	 */
 	void exitTop(ConfigParser.TopContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link ConfigParser#sec}.
+	 * @param ctx the parse tree
+	 */
+	void enterSec(ConfigParser.SecContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ConfigParser#sec}.
+	 * @param ctx the parse tree
+	 */
+	void exitSec(ConfigParser.SecContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link ConfigParser#head}.
 	 * @param ctx the parse tree
 	 */
@@ -36,4 +46,14 @@ public interface ConfigListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVal(ConfigParser.ValContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ConfigParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void enterValue(ConfigParser.ValueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ConfigParser#value}.
+	 * @param ctx the parse tree
+	 */
+	void exitValue(ConfigParser.ValueContext ctx);
 }

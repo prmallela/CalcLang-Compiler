@@ -2,7 +2,11 @@ T__0=1
 T__1=2
 T__2=3
 NAME=4
-WS=5
+NUM=5
+NL=6
+WS=7
+SCHAR=8
+COMMENT=9
 '['=1
 ']'=2
 '='=3
