@@ -28,13 +28,7 @@ public class TypeCheckingVisitor extends CalcLangBaseVisitor<Type> {
 
     @Override
     public Type visitBoolExpr(CalcLangParser.BoolExprContext ctx) {
-        //System.out.println(ctx.bool().getText());
-        //if(ne==null)
             return trace(ctx,Type.BOOL);
-       // if(ne.equals(String.valueOf('!')))
-      //  return trace(ctx, Type.BOOL);
-      //  else
-        //    return trace(ctx,Type.ERROR);
     }
 
 
