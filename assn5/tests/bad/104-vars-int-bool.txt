@@ -1,0 +1,3 @@
+ok = true;
+r = 4;
+print r*ok;

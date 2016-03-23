@@ -1,0 +1,25 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'antlr'
+
+mainClassName = "TestTypeChecker"
+
+generateGrammarSource {
+    arguments += ["-visitor"]
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  antlr "org.antlr:antlr4:4.5" // use ANTLR version 4
+}
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
+}

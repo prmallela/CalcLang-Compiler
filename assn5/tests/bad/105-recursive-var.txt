@@ -1,0 +1,1 @@
+x = x + 1;   # recursion not allowed, should say undefined var: x

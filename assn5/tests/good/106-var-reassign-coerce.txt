@@ -1,0 +1,4 @@
+f = 8;
+print f;  # INT
+f = f+3.5;
+print f;  # FLOAT

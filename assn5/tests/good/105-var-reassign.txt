@@ -1,0 +1,3 @@
+zed = 8;
+zed = zed + 5;
+print zed;

@@ -1,0 +1,1 @@
+print if true then 9 else false;
