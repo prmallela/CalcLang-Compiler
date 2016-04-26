@@ -1,0 +1,3 @@
+print true;     #expect True
+print false;    #expect False
+

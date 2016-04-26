@@ -1,0 +1,3 @@
+print 3 >= 5;  #expect False
+print 5 >= 3;  #expect True
+print 3 >= 3;  #expect True

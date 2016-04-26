@@ -1,0 +1,2 @@
+var x = 8;
+print if x < 10 then 5 else 6;

@@ -1,0 +1,1 @@
+print if 8 then 5 else 2;

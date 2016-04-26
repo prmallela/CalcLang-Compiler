@@ -1,0 +1,4 @@
+var gg = 3.14;  #float
+print gg;       #expect 3.140000e+00
+gg = 9;         #assign int
+print gg;       #expect 9.000000e+00

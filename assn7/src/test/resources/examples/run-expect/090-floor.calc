@@ -1,0 +1,4 @@
+print floor(3.1415);  #expect 3
+print floor(3.9989);  #expect 3
+print floor(-5.4);    #expect -6
+print floor(8);       #expect 8

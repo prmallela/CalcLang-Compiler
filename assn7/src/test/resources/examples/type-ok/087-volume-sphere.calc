@@ -1,0 +1,8 @@
+var pi = 3.14159;
+var ratio = 4.0/3;
+
+print "Enter sphere radius:";
+var radius = parseFloat(readLine());
+
+var volume = ratio * pi * radius^3;
+print "The sphere volume is " + showFloat(volume);

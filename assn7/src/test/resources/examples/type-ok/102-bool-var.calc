@@ -1,0 +1,3 @@
+var ok = false;
+print ok;
+print if ok then 3 else 4;

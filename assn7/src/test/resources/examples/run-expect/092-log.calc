@@ -1,0 +1,3 @@
+print log(1253,10);  #expect 3.097951e+00
+print log(32,2);     #expect 5.000000e+00
+print log(3.14159, 2.718281828);  #expect 1.144729e+00

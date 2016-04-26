@@ -1,0 +1,5 @@
+print 3 = 4;    #expect False
+print 3 = 3;    #expect True
+print 3 <> 4;   #expect True
+print 3 <> 3;   #expect False
+

@@ -1,0 +1,4 @@
+var dd = 3;  #int
+print dd;    #expect 3
+dd = dd * 2;
+print dd;    #expect 6

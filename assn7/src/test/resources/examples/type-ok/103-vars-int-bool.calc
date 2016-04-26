@@ -1,0 +1,3 @@
+var ok = true;
+var r = 8;
+print if ok then r else r/2;

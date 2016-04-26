@@ -1,0 +1,6 @@
+var qq = 9;
+print qq * 2;   #expect 18
+print qq / 4;   #expect 2
+print qq - 1;   #expect 8
+print 2 * qq;   #expect 18
+print 1 - qq;   #expect -8

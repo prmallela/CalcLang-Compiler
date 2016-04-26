@@ -1,0 +1,4 @@
+# random is a function with no args that returns a float
+# in the range [0,1)
+
+print random() + 0.5;
