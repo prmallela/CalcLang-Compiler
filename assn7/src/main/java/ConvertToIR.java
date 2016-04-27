@@ -77,15 +77,35 @@ public class ConvertToIR extends CalcLangBaseVisitor<Address> {
         Address right = maybeCoerce(ctx.right);
         Address a = new Address(t);
         Instruction.Kind kind;
+        Address tmp;
         String op = ctx.op.getText();
         switch (op){
-            case "+": kind = Instruction.Kind.ADD; break;
-            case "-": kind = Instruction.Kind.SUB; break;
-            case "*": kind = Instruction.Kind.MUL; break;
-            case "/": kind = Instruction.Kind.DIV; break;
-            case "%": kind = Instruction.Kind.MOD; break;
-            case "^": kind = Instruction.Kind.POW; break;
-
+            case "+":
+                if(left.type == Type.STRING) {
+                    kind = Instruction.Kind.SCONCAT;
+                } else {
+                    kind = Instruction.Kind.ADD;
+                }
+                break;
+            case "-":  kind = Instruction.Kind.SUB; break;
+            case "*":  kind = Instruction.Kind.MUL; break;
+            case "/":  kind = Instruction.Kind.DIV; break;
+            case "%":  kind = Instruction.Kind.MOD; break;
+            case "^":  kind = Instruction.Kind.POW; break;
+            case "=":  kind = Instruction.Kind.EQ;  break;
+            case "&":  kind = Instruction.Kind.MUL; break;
+            case "|":  kind = Instruction.Kind.OR;  break;
+            case "<>": kind = Instruction.Kind.NE;  break;
+            case "<":  kind = Instruction.Kind.LT;  break;
+            case "<=": kind = Instruction.Kind.LE;  break;
+            case ">":
+                kind = Instruction.Kind.LT;
+                tmp = left; left = right; right = tmp;
+                break;
+            case ">=":
+                kind = Instruction.Kind.LE;
+                tmp = left; left = right; right = tmp;
+                break;
             default:
                 throw new UnsupportedOperationException(op);
         }
