@@ -1,0 +1,6 @@
+var f = "Fizz";
+var b = "Buzz";
+print f + "1";              #expect Fizz1
+print b + "2";              #expect Buzz2
+print f + b + "3";          #expect FizzBuzz3
+print b + "!" + f + "4";    #expect Buzz!Fizz4

@@ -1,0 +1,9 @@
+var n = 20;
+var k = 1;
+while n > 0 do
+  begin
+    k = k * n;
+    n = n - 1;
+  end;
+print k;        #expect 2432902008176640000
+

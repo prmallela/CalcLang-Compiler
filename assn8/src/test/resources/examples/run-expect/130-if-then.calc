@@ -1,0 +1,6 @@
+var x = 3;
+if x < 4 then print "Yes";  #expect Yes
+print x;                    #expect 3
+if x < 2 then print "Cool"; #no output
+print "Ok";                 #expect Ok
+

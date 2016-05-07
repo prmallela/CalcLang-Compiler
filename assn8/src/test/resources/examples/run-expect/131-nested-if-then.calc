@@ -1,0 +1,13 @@
+var x = 3;
+if x < 4 then       #true
+  if x > 2 then     #true
+    print "Yes";    #expect Yes
+
+if x < 5 then       #true
+  if x > 4 then     #false
+    print "Cool";   #no output
+
+if x < 2 then       #false
+  if x > 0 then     #true
+    print "Bad";    #no output
+

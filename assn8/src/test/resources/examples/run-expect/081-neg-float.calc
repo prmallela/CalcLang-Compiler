@@ -1,0 +1,4 @@
+print -8.14;       #expect -8.140000e+00
+print 3 - -7.11;   #expect  1.011000e+01
+print -3298.2987;  #expect -3.298299e+03
+

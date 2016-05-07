@@ -1,0 +1,4 @@
+print false | false; #expect False
+print false | true ; #expect True
+print true  | false; #expect True
+print true  | true ; #expect True

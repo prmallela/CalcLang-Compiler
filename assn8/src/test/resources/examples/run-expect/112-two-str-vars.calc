@@ -1,0 +1,7 @@
+var x = "Fizz";
+var y = "Buzz";
+print x;        #expect Fizz
+print y;        #expect Buzz
+print "!";      #expect !
+x = "FizzBuzz";
+print x;        #expect FizzBuzz

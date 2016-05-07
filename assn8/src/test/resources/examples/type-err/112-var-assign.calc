@@ -1,0 +1,2 @@
+var k = 3;  # integer variable
+k = 3.14;   # cannot assign a float

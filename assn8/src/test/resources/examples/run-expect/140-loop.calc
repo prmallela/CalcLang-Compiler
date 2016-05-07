@@ -1,0 +1,11 @@
+var k = 5;
+while k > 0 do
+  begin
+    print k;
+    k = k-1;
+  end;
+#expect 5
+#expect 4
+#expect 3
+#expect 2
+#expect 1

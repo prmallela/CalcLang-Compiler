@@ -1,0 +1,2 @@
+var r = 42;
+print r+1;

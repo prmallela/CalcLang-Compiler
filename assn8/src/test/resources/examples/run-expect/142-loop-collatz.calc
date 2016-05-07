@@ -1,0 +1,19 @@
+var k = 17;
+while k > 1 do
+  begin
+    print k;
+    if k%2=0 then k = k/2;
+    else k = 3*k+1;
+  end;
+#expect 17
+#expect 52
+#expect 26
+#expect 13
+#expect 40
+#expect 20
+#expect 10
+#expect 5
+#expect 16
+#expect 8
+#expect 4
+#expect 2

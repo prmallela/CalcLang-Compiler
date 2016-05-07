@@ -1,0 +1,11 @@
+var x = "Hello";
+begin
+  var x = 5;
+  begin
+    var x = 3.14;
+    print x;        #expect 3.140000e+00
+  end;
+  print x;          #expect 5
+end;
+print x;            #expect Hello
+

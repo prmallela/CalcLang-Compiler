@@ -1,0 +1,26 @@
+var z = 2352.0;
+while z > 1.00001 do
+  begin
+    z = sqrt(z);
+    print z;
+  end;
+#expect 4.849742e+01
+#expect 6.964009e+00
+#expect 2.638941e+00
+#expect 1.624482e+00
+#expect 1.274552e+00
+#expect 1.128960e+00
+#expect 1.062525e+00
+#expect 1.030789e+00
+#expect 1.015278e+00
+#expect 1.007610e+00
+#expect 1.003798e+00
+#expect 1.001897e+00
+#expect 1.000948e+00
+#expect 1.000474e+00
+#expect 1.000237e+00
+#expect 1.000118e+00
+#expect 1.000059e+00
+#expect 1.000030e+00
+#expect 1.000015e+00
+#expect 1.000007e+00

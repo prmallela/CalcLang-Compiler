@@ -1,0 +1,12 @@
+# parseInt    : (STRING)       → INT
+# parseFloat  : (STRING)       → FLOAT
+# showInt     : (INT)          → STRING
+# showFloat   : (FLOAT)  → STRING
+# readLine    : () → STRING
+
+print parseInt("99")+1;
+print parseFloat("3.14")^1.78;
+print parseInt(showInt(42));
+print parseFloat(showFloat(9.21));
+print readLine();
+print parseInt(readLine());

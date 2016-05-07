@@ -1,0 +1,10 @@
+var x = "Hello";
+var y = 3.14;
+print y;            #expect 3.140000e+00
+begin
+  var y = "world";
+  print x + y;      #expect Helloworld
+end;
+y = y+1;
+print y;            #expect 4.140000e+00
+

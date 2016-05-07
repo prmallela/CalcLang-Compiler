@@ -1,0 +1,16 @@
+var d = 8;
+if d > 5 then           #true
+  begin
+    print "Okay";       #expect Okay
+    if d < 10 then      #true
+      begin
+        print d;        #expect 8
+        print "Yup";    #expect Yup
+        d = d - 2;
+      end;
+    print d;            #expect 6
+    if d > 7 then       #false
+      print "Woo";      #no output
+  end;
+print d+1;              #expect 7
+

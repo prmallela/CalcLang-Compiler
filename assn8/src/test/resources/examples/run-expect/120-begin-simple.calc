@@ -1,0 +1,11 @@
+print 6;
+begin
+  print 7.1;
+  print "Hello";
+end;
+print 9;
+
+#expect 6
+#expect 7.100000e+00
+#expect Hello
+#expect 9

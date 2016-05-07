@@ -1,0 +1,7 @@
+var hh = 3.14;
+print hh;       #expect 3.140000e+00
+# Redeclare with different type
+var hh = 7;
+hh = hh * 44;
+print hh;       #expect 308
+

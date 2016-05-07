@@ -1,0 +1,4 @@
+print 1+2*3;  #expect 7
+print (1+2)*3; #expect 9
+print (1+2)*(3+4); #expect 21
+print 1+2*3+4; #expect 11

@@ -1,0 +1,3 @@
+var x = 3.111993;
+print x;    #expect 3.111993e+00
+

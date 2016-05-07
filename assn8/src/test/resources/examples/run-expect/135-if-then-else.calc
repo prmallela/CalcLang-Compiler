@@ -1,0 +1,10 @@
+var k = 3;
+if k < 5 then       #true
+  print "Alice";    #expect Alice
+else
+  print "Bob";
+
+if k < 2 then       #false
+  print "Carl";
+else
+  print "Diane";    #expect Diane

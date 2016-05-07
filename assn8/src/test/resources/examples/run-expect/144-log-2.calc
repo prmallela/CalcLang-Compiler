@@ -1,0 +1,10 @@
+var theNum = 948298372;
+var z = theNum;
+var k = 0;
+while z > 0 do
+  begin
+    z = z / 2;
+    k = k + 1;
+  end;
+print k;                #expect 30
+print log(theNum,2);    #expect 2.982077e+01

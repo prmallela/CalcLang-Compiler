@@ -1,0 +1,9 @@
+var s = "";
+var n = 10;
+while n > 0 do
+  begin
+    s = s + ".";
+    n = n - 1;
+  end;
+print s;        #expect ..........
+
