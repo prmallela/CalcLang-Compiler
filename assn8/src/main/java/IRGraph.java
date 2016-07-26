@@ -5,8 +5,6 @@ import java.util.TreeMap;
 
 class IRGraph implements Iterable<Integer> {
     private final TreeMap<Integer, BasicBlock> graph = new TreeMap<>();
-    private final HashMap<String, Integer> strings = new HashMap<>();
-    private int nextStringNum = 1;
     private BasicBlock block;
     private final Address startLabel;
 
@@ -41,27 +39,6 @@ class IRGraph implements Iterable<Integer> {
 
     BasicBlock getBlock(int label) {
         return graph.get(label);
-    }
-
-    void collectStrings() {
-        for(Integer L : this) {
-            BasicBlock bb = getBlock(L);
-            for(Instruction i : bb) {
-                for (Address a : i) {
-                    if (a.kind == Address.Kind.CONST && a.type == Type.STRING) {
-                        strings.put(a.value, nextStringNum++);
-                    }
-                }
-            }
-        }
-    }
-
-    Integer getStringID(String s) {
-        return strings.get(s);
-    }
-
-    Set<String> getStrings() {
-        return strings.keySet();
     }
 
     @Override

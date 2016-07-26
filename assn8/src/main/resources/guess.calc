@@ -1,0 +1,26 @@
+# Number guessing game
+print "What's your name?";
+var name = readLine();
+print "Hello, " + name;
+var secret = floor(random()*100)+1;
+print "I'm thinking of a number from 1-100.";
+print "What's your guess?";
+var guess = parseInt(readLine());
+var guessesLeft = 5;
+while guess <> secret & guessesLeft > 0 do
+  begin
+    if guess < secret then print "Too low";
+    else print "Too high";
+    print "What's your guess?";
+    guess = parseInt(readLine());
+    guessesLeft = guessesLeft - 1;
+  end;
+if guess = secret then
+  begin
+    print "Great job, " + name + ", you got it!";
+    print "You had " + showInt(guessesLeft) + " guesses to spare.";
+  end;
+else
+  print "Too bad, " + name + ", you lost. My number was "
+        + showInt(secret);
+

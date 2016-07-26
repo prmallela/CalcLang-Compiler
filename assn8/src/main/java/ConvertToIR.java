@@ -1,6 +1,10 @@
-import calc.grammar.CalcLangBaseVisitor;
+import cal.CalcLangBaseVisitor;
 import calc.grammar.CalcLangParser;
+import org.antlr.v4.runtime.ANTLRInputStream;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 class ConvertToIR extends CalcLangBaseVisitor<Address> {
@@ -20,6 +24,64 @@ class ConvertToIR extends CalcLangBaseVisitor<Address> {
     public Address visitTop(CalcLangParser.TopContext ctx) {
         super.visitTop(ctx);
         graph.add(new Instruction(Instruction.Kind.END));
+        return null;
+    }
+
+    @Override
+    public Address visitIfStmt(CalcLangParser.IfStmtContext ctx) {
+        Address condAddr = ctx.expr().accept(this);
+        Address thenLabel = new Address();
+        Address joinLabel = new Address();
+        graph.add(new Instruction(Instruction.Kind.BRANCH,
+                condAddr, joinLabel, thenLabel));
+        graph.newBlock(thenLabel);
+        ctx.stmt().accept(this);
+        graph.add(new Instruction(Instruction.Kind.JUMP,
+                joinLabel));
+        graph.newBlock(joinLabel);
+        return null;
+    }
+
+    @Override
+    public Address visitWhileStmt(CalcLangParser.WhileStmtContext ctx) {
+        Address condLabel = new Address(); // Must be able to jump back to condition
+        graph.add(new Instruction(Instruction.Kind.JUMP, condLabel));
+        graph.newBlock(condLabel);
+        Address condAddr = ctx.expr().accept(this);
+        Address bodyLabel = new Address();
+        Address joinLabel = new Address();
+        graph.add(new Instruction(Instruction.Kind.BRANCH,
+                condAddr, joinLabel, bodyLabel));
+        graph.newBlock(bodyLabel);
+        ctx.stmt().accept(this);
+        graph.add(new Instruction(Instruction.Kind.JUMP, condLabel));
+        graph.newBlock(joinLabel);
+        return null;
+    }
+
+    @Override
+    public Address visitIfElseStmt(CalcLangParser.IfElseStmtContext ctx) {
+        Address condAddr = ctx.expr().accept(this);
+        Address thenLabel = new Address();
+        Address elseLabel = new Address();
+        Address joinLabel = new Address();
+        graph.add(new Instruction(Instruction.Kind.BRANCH,
+                condAddr, elseLabel, thenLabel));
+        graph.newBlock(thenLabel);
+        ctx.stmt(0).accept(this);
+        graph.add(new Instruction(Instruction.Kind.JUMP, joinLabel));
+        graph.newBlock(elseLabel);
+        ctx.stmt(1).accept(this);
+        graph.add(new Instruction(Instruction.Kind.JUMP, joinLabel));
+        graph.newBlock(joinLabel);
+        return null;
+    }
+
+    @Override
+    public Address visitBlockStmt(CalcLangParser.BlockStmtContext ctx) {
+        symbols.enter();
+        super.visitBlockStmt(ctx);
+        symbols.leave();
         return null;
     }
 
@@ -188,20 +250,48 @@ class ConvertToIR extends CalcLangBaseVisitor<Address> {
             case "floor": kind = Instruction.Kind.FLOOR; break;
             case "sqrt":  kind = Instruction.Kind.SQRT; break;
             case "log":   kind = Instruction.Kind.LOG; break;
+            case "readLine": kind = Instruction.Kind.READLINE; break;
+            case "random": kind = Instruction.Kind.RANDOM; break;
+            case "parseInt": kind = Instruction.Kind.S2I; break;
+            case "showInt": kind = Instruction.Kind.I2S; break;
             default:
                 throw new UnsupportedOperationException(funcName);
         }
         Address result = new Address(typeChecker.getNodeType(ctx));
         Instruction instr;
-        if(addresses.size() == 1) {
-            instr = new Instruction(kind, result, addresses.get(0));
-        } else {
-            assert addresses.size() == 2;
-            instr = new Instruction(kind ,result,
-                    addresses.get(0),
-                    addresses.get(1));
+        switch (addresses.size()) {
+            case 0:
+                instr = new Instruction(kind, result);
+                break;
+            case 1:
+                instr = new Instruction(kind, result,
+                        addresses.get(0));
+                break;
+            case 2:
+                instr = new Instruction(kind ,result,
+                        addresses.get(0),
+                        addresses.get(1));
+                break;
+            default:
+                throw new UnsupportedOperationException(kind.toString());
         }
         graph.add(instr);
         return result;
+    }
+
+    public static void main(String[] args) throws IOException {
+        InputStream is;
+        if(args.length >= 1) {
+            is = new FileInputStream(args[0]);
+        }
+        else {
+            is = ConvertToIR.class.getResourceAsStream("guess.calc");
+        }
+        TypeChecker tc = new TypeChecker(new ANTLRInputStream(is));
+        if(tc.getNumErrors() == 0) {
+            ConvertToIR ir = new ConvertToIR(tc);
+            System.out.println(ir.graph);
+            new InterpretIR(ir.graph, null);
+        }
     }
 }

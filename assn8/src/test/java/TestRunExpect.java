@@ -1,16 +1,18 @@
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.ListIterator;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,10 +23,8 @@ public class TestRunExpect {
     public Timeout globalTimeout = Timeout.seconds(5);
 
     private static FindTestPrograms finder;
-    private static final String llvmInterpProg = "lli";
     private static final Pattern expectRegex =
             Pattern.compile(".*#expect\\s+(.*)");
-    private static final int llvmTimeoutSeconds = 10;
 
     @Parameterized.Parameters(name="{0}")
     public static ArrayList<String> findTestCases()
@@ -43,13 +43,15 @@ public class TestRunExpect {
        Initialized first-thing in the `test()` method. */
     private String testPath;
 
-    @Test
-    public void test() throws IOException, InterruptedException {
+    @Before
+    public void setUp() {
         testPath = finder.testsDirSep + testName;
-        ArrayList<String> expectedOuts = getExpectedOutputs();
-        ArrayList<String> llvmOuts = new ArrayList<>();
-        ArrayList<String> interpOuts = new ArrayList<>();
+    }
 
+    @Test
+    public void testWithInterpreter() throws IOException, InterruptedException {
+        ArrayList<String> expectedOuts = getExpectedOutputs();
+        ArrayList<String> interpOuts = new ArrayList<>();
         TypeChecker checker = compile();
         ConvertToIR ir = new ConvertToIR(checker);
         System.out.println(ir.graph);
@@ -58,11 +60,24 @@ public class TestRunExpect {
         Assert.assertEquals(expectedOuts, interpOuts);
     }
 
+    @Test
+    public void testWithLLVM() throws IOException, InterruptedException {
+        ArrayList<String> expectedOuts = getExpectedOutputs();
+        ArrayList<String> llvmOuts = new ArrayList<>();
+        TypeChecker checker = compile();
+        ConvertToIR ir = new ConvertToIR(checker);
+        System.out.println(ir.graph);
+        new IRtoLLVM(ir.graph, System.out);
+        InterpretLLVM.runBatch(ir.graph, llvmOuts);
+        System.out.println(llvmOuts);
+        Assert.assertEquals(expectedOuts, llvmOuts);
+    }
+
     private ArrayList<String> getExpectedOutputs() throws IOException {
         BufferedReader testReader = new BufferedReader(new InputStreamReader(
                 getClass().getResourceAsStream(testPath)
         ));
-        ArrayList<String> outs = TestUtils.readLines(testReader, null);
+        ArrayList<String> outs = Utils.readLines(testReader, null);
         ListIterator<String> it = outs.listIterator();
         while(it.hasNext()) {
             Matcher m = expectRegex.matcher(it.next());

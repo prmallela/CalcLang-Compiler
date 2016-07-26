@@ -1,0 +1,7 @@
+print 3+4;
+print 9384573 + 298475;
+print 3.14 + 1.23;
+print 2*3;
+print 81.3 * 0.001;
+print 50/4;
+print 50/4.0;

@@ -1,6 +1,10 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Runs an IR program by interpreting each instruction. This is useful for
@@ -11,10 +15,14 @@ class InterpretIR {
 
     private final HashMap<Object, Value> values = new HashMap<>();
     private final ArrayList<String> out;
+    private final BufferedReader in;
+    private final Random rng;
     private Integer prevLabel, currLabel;
 
     InterpretIR(IRGraph graph, ArrayList<String> out) {
         this.out = out;
+        this.in = new BufferedReader(new InputStreamReader(System.in));
+        this.rng = new Random();
         this.currLabel = graph.startLabel();
         while(currLabel != null) {
             run(graph.getBlock(currLabel));
@@ -74,7 +82,11 @@ class InterpretIR {
                 if(a.type == Type.BOOL) {
                     s = s.equals("0")? "False" : "True";
                 }
-                out.add(s);
+                if(out == null) {   // Use stdout
+                    System.out.println(s);
+                } else {            // Output to list
+                    out.add(s);
+                }
                 break;
             }
             case BRANCH: {
@@ -91,6 +103,8 @@ class InterpretIR {
             }
             case I2F:
             case FLOOR:
+            case S2I:
+            case I2S:
             case SQRT: {
                 Value v = loadValue(instr.first());
                 Value r = v.unary(instr.kind);
@@ -119,6 +133,20 @@ class InterpretIR {
             case F2S: {
                 DoubleValue v = (DoubleValue)loadValue(instr.first());
                 saveValue(instr.dest(), new StringValue(v.toString()));
+                break;
+            }
+            case READLINE: {
+                String s;
+                try {
+                    s = in.readLine();
+                } catch (IOException e) {
+                    s = "";
+                }
+                saveValue(instr.dest(), new StringValue(s));
+                break;
+            }
+            case RANDOM: {
+                saveValue(instr.dest(), new DoubleValue(rng.nextDouble()));
                 break;
             }
             case PHI: {
@@ -187,7 +215,12 @@ class InterpretIR {
         }
         @Override
         Value unary(Instruction.Kind k) {
-            throw new UnsupportedOperationException(k.toString());
+            switch(k) {
+                case S2I:
+                    return new IntegerValue(s);
+                default:
+                    throw new UnsupportedOperationException(k.toString());
+            }
         }
     }
 
@@ -256,6 +289,8 @@ class InterpretIR {
             switch(k) {
                 case I2F:
                     return new DoubleValue(i.toString());
+                case I2S:
+                    return new StringValue(i.toString());
                 default:
                     throw new UnsupportedOperationException(k.toString());
             }

@@ -1,4 +1,4 @@
-// Generated from D:/GitLab/cs664s16/assn8/src/main/antlr\CalcLang.g4 by ANTLR 4.5.1
+// Generated from D:/GitLab/cs664pub/assn8sol/src/main/antlr\CalcLang.g4 by ANTLR 4.5.3
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class CalcLangParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.5.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.5.3", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -361,6 +361,7 @@ public class CalcLangParser extends Parser {
 		enterRule(_localctx, 4, RULE_stmt);
 		try {
 			setState(51);
+			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
 				_localctx = new VarStmtContext(_localctx);
@@ -674,6 +675,7 @@ public class CalcLangParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(80);
+			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
 				{
@@ -806,6 +808,7 @@ public class CalcLangParser extends Parser {
 					_prevctx = _localctx;
 					{
 					setState(103);
+					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 					case 1:
 						{
